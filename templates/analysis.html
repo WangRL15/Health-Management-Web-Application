@@ -1,0 +1,59 @@
+{% extends "basic.html" %} {% block title %}健康分析{% endblock %} {% block
+extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %} {% block content %}
+<h1>健康分析</h1>
+
+<div class="mt-4">
+  <h2>飲食與運動卡路里比較</h2>
+  <canvas id="calorieChart" width="400" height="200"></canvas>
+</div>
+
+<div id="output1" data-message1="{{ diet_data }}"></div>
+<div id="output2" data-message2="{{ exercise_data }}"></div>
+
+<script>
+  const outputElement1 = document.getElementById("output1");
+  const dietData = JSON.parse(outputElement1.getAttribute("data-message1"));
+  const outputElement2 = document.getElementById("output2");
+  const exerciseData = JSON.parse(outputElement2.getAttribute("data-message2"));
+
+  // diet 和 exercise 資料
+  document.addEventListener("DOMContentLoaded", function () {
+    const labels = Object.keys(dietData);
+    const dietValues = Object.values(dietData);
+    const exerciseValues = labels.map((date) => exerciseData[date] || 0);
+
+    const ctx = document.getElementById("calorieChart").getContext("2d");
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "飲食卡路里",
+            data: dietValues,
+            borderColor: "rgba(75, 192, 192, 1)",
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            fill: true,
+          },
+          {
+            label: "運動消耗卡路里",
+            data: exerciseValues,
+            borderColor: "rgba(255, 99, 132, 1)",
+            backgroundColor: "rgba(255, 99, 132, 0.2)",
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: { title: { display: true, text: "日期" } },
+          y: { title: { display: true, text: "卡路里" } },
+        },
+      },
+    });
+  });
+</script>
+{% endblock %}

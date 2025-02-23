@@ -1,0 +1,99 @@
+{% extends "basic.html" %} {% block title %}運動計劃 - 健身管理系統{% endblock
+%} {% block content %}
+<div class="container mt-4">
+  <h2>運動計劃</h2>
+
+  {% with messages = get_flashed_messages() %} {% if messages %} {% for message
+  in messages %}
+  <div class="alert alert-success">{{ message }}</div>
+  {% endfor %} {% endif %} {% endwith %}
+
+  <div class="row">
+    <!-- 新增運動表單 -->
+    <div class="col-md-6">
+      <h3>新增運動</h3>
+      <form method="POST">
+        <div class="mb-3">
+          <label for="date" class="form-label">日期</label>
+          <input
+            type="date"
+            class="form-control"
+            id="date"
+            name="date"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exercise_type" class="form-label">運動類型</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exercise_type"
+            name="exercise_type"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="sets" class="form-label">組數</label>
+          <input
+            type="number"
+            class="form-control"
+            id="sets"
+            name="sets"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="reps" class="form-label">次數</label>
+          <input
+            type="number"
+            class="form-control"
+            id="reps"
+            name="reps"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="weight" class="form-label">重量 (kg)</label>
+          <input
+            type="number"
+            step="0.1"
+            class="form-control"
+            id="weight"
+            name="weight"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">新增運動</button>
+      </form>
+    </div>
+
+    <!-- 運動紀錄表格 -->
+    <div class="col-md-6">
+      <h3>運動紀錄</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>日期</th>
+            <th>運動類型</th>
+            <th>組數</th>
+            <th>次數</th>
+            <th>重量</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for workout in workouts %}
+          <tr>
+            <td>{{ workout.date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ workout.exercise_type }}</td>
+            <td>{{ workout.sets }}</td>
+            <td>{{ workout.reps }}</td>
+            <td>{{ workout.weight }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

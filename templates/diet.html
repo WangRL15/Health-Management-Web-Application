@@ -1,0 +1,103 @@
+{% extends "basic.html" %} {% block title %}飲食日記{% endblock %} {% block
+content %}
+<h1>飲食日記</h1>
+
+<!-- 顯示飲食日記列表 -->
+<div class="mb-4">
+  <h2>日記列表</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>日期</th>
+        <th>卡路里</th>
+        <th>蛋白質 (g)</th>
+        <th>碳水化合物 (g)</th>
+        <th>脂肪 (g)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in diet_logs %}
+      <tr>
+        <td>{{ log.date.strftime('%Y-%m-%d') }}</td>
+        <td>{{ log.food_name }}</td>
+        <td>{{ log.calories }}</td>
+        <td>{{ log.protein }}</td>
+        <td>{{ log.carbs }}</td>
+        <td>{{ log.fat }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="5" class="text-center">目前沒有飲食日記</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- 新增日記的表單 -->
+<div>
+  <h2>新增日記</h2>
+  <form action="{{ url_for('diet') }}" method="POST">
+    <div class="mb-3">
+      <label for="date" class="form-label">日期</label>
+      <input type="date" class="form-control" id="date" name="date" required />
+    </div>
+    <div class="mb-3">
+      <label for="foodName" class="form-label">食物名稱 (g)</label>
+      <input
+        type="text"
+        class="form-control"
+        id="foodName"
+        name="foodName"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="calories" class="form-label">卡路里</label>
+      <input
+        type="number"
+        class="form-control"
+        id="calories"
+        name="calories"
+        step="0.1"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="protein" class="form-label">蛋白質 (g)</label>
+      <input
+        type="number"
+        class="form-control"
+        id="protein"
+        name="protein"
+        step="0.1"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="carbs" class="form-label">碳水化合物 (g)</label>
+      <input
+        type="number"
+        class="form-control"
+        id="carbs"
+        name="carbs"
+        step="0.1"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="fat" class="form-label">脂肪 (g)</label>
+      <input
+        type="number"
+        class="form-control"
+        id="fat"
+        name="fat"
+        step="0.1"
+        required
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">新增日記</button>
+  </form>
+</div>
+
+{% endblock %}

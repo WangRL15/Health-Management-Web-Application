@@ -1,0 +1,67 @@
+{% extends "basic.html" %} {% block title %}運動紀錄{% endblock %} {% block
+content %}
+<h1>運動紀錄</h1>
+
+<!-- 顯示運動紀錄列表 -->
+<div class="mb-4">
+  <h2>紀錄列表</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>日期</th>
+        <th>步數</th>
+        <th>消耗卡路里</th>
+        <th>運動時長 (分鐘)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in exercise_logs %}
+      <tr>
+        <td>{{ log.date.strftime('%Y-%m-%d') }}</td>
+        <td>{{ log.steps }}</td>
+        <td>{{ log.calories_burned }}</td>
+        <td>{{ log.duration }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="4" class="text-center">目前沒有運動紀錄</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- 新增運動紀錄的表單 -->
+<div>
+  <h2>新增運動紀錄</h2>
+  <form action="{{ url_for('exercise') }}" method="POST">
+    <div class="mb-3">
+      <label for="date" class="form-label">日期</label>
+      <input type="date" class="form-control" id="date" name="date" required />
+    </div>
+    <div class="mb-3">
+      <label for="calories_burned" class="form-label">消耗卡路里</label>
+      <input
+        type="number"
+        class="form-control"
+        id="calories_burned"
+        name="calories_burned"
+        step="0.1"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="duration" class="form-label">運動時長 (分鐘)</label>
+      <input
+        type="number"
+        class="form-control"
+        id="duration"
+        name="duration"
+        required
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">新增紀錄</button>
+  </form>
+</div>
+
+{% endblock %}
